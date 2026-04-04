@@ -64,4 +64,30 @@
             <button class="song-item" onclick="playMusic('Music%20for%20Stagea/1-2/1-2_45_兔子大跳躍.wav', '45 兔子大跳躍')">45 兔子大跳躍</button>
             <button class="song-item" onclick="playMusic('Music%20for%20Stagea/1-2/1-2_46_Panda的鬆餅.wav', '46 Panda的鬆餅')">46 Panda的鬆餅</button>
             <button class="song-item" onclick="playMusic('Music%20for%20Stagea/1-2/1-2_47_動物遊行.wav', '47 動物遊行')">47 動物遊行</button>
-            <button class="song-item" onclick="playMusic('Music%20for%20Stagea/1-2/1-2_48_好喜歡春天！.wav', '48 好喜歡春天！')
+            <button class="song-item" onclick="playMusic('Music%20for%20Stagea/1-2/1-2_48_好喜歡春天！.wav', '48 好喜歡春天！')">48 好喜歡春天！</button>
+            <button class="song-item" onclick="playMusic('Music%20for%20Stagea/1-2/1-2_49_塔朗泰拉舞曲.wav', '49 塔朗泰拉舞曲')">49 塔朗泰拉舞曲</button>
+            <button class="song-item" onclick="playMusic('Music%20for%20Stagea/1-2/1-2_50_麻亞.wav', '50 麻亞')">50 麻亞</button>
+            <button class="song-item" onclick="playMusic('Music%20for%20Stagea/1-2/1-2_51_風的郵差.wav', '51 風的郵差')">51 風的郵差</button>
+            <button class="song-item" onclick="playMusic('Music%20for%20Stagea/1-2/1-2_52_祈.wav', '52 祈')">52 祈</button>
+            <button class="song-item" onclick="playMusic('Music%20for%20Stagea/1-2/1-2_53_晨歌.wav', '53 晨歌')">53 晨歌</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    function playMusic(url, name) {
+        const player = document.getElementById('main-player');
+        const text = document.getElementById('now-playing');
+        
+        player.src = url;
+        text.innerText = "▶️ 正在播放：" + name;
+        
+        player.load();
+        player.play().catch(e => {
+            console.log("播放失敗:", e);
+        });
+    }
+</script>
+
+</body>
+</html>
