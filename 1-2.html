@@ -8,22 +8,29 @@
         body { background-color: #121212; font-family: sans-serif; color: #ffffff; padding: 20px; margin: 0; }
         .container { max-width: 800px; margin: 0 auto; }
         h1 { text-align: center; margin-bottom: 20px; }
-        
-        /* 返回大廳按鈕 */
         .back-btn { display: inline-block; background-color: #333; color: white; text-decoration: none; padding: 10px 20px; border-radius: 8px; margin-bottom: 20px; font-weight: bold; }
         .back-btn:hover { background-color: #ffffff; color: black; }
-
-        /* 播放清單大外框 */
-        .playlist-box { background-color: #1e1e1e; border-radius: 12px; border: 1px solid #333; padding: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.5); }
+        .playlist-box { background-color: #1e1e1e; border-radius: 12px; border: 1px solid #333; padding: 20px; }
         .player-header { position: sticky; top: 0; background-color: #1e1e1e; padding-bottom: 15px; border-bottom: 2px solid #4facfe; margin-bottom: 15px; z-index: 10; }
         #now-playing { color: #4facfe; font-weight: bold; font-size: 1.2rem; margin-bottom: 10px; display: block; }
-        audio { width: 100%; border-radius: 8px; outline: none; }
+        audio { width: 100%; border-radius: 8px; }
         
-        /* 點擊歌單列表 */
+        /* 歌名按鈕樣式 */
         .song-list { list-style: none; padding: 0; margin: 0; }
-        .song-item { padding: 12px 15px; margin-bottom: 5px; background-color: #252525; border-radius: 6px; cursor: pointer; color: #4facfe; transition: 0.2s; }
-        .song-item:hover { background-color: #333; color: #00f2fe; }
-        .song-item.active { background-color: #4facfe; color: #121212; font-weight: bold; }
+        .song-item { 
+            width: 100%;
+            text-align: left;
+            padding: 15px;
+            margin-bottom: 8px;
+            background-color: #252525;
+            border: none;
+            border-radius: 8px;
+            color: #4facfe;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: 0.2s;
+        }
+        .song-item:hover { background-color: #333; color: #ffffff; }
     </style>
 </head>
 <body>
@@ -34,51 +41,27 @@
 
     <div class="playlist-box">
         <div class="player-header">
-            <span id="now-playing">請從下方選擇歌曲...</span>
-            <audio id="main-player" controls autoplay>
+            <span id="now-playing">請點擊下方歌曲播放...</span>
+            <audio id="main-player" controls>
                 <source src="" type="audio/wav">
             </audio>
         </div>
 
-        <ul class="song-list">
-            <li class="song-item" data-src="Music for Stagea/1-2/1-2_32_Do Re Mi Fa超人.wav">32 Do Re Mi Fa超人</li>
-            <li class="song-item" data-src="Music for Stagea/1-2/1-2_33_火車.wav">33 火車</li>
-            <li class="song-item" data-src="Music for Stagea/1-2/1-2_34_來公園玩.wav">34 來公園玩</li>
-            <li class="song-item" data-src="Music for Stagea/1-2/1-2_35_快樂的五指朋友.wav">35 快樂的五指朋友</li>
-            <li class="song-item" data-src="Music for Stagea/1-2/1-2_36_點心王國的遊樂園.wav">36 點心王國的遊樂園</li>
-            <li class="song-item" data-src="Music for Stagea/1-2/1-2_37_我最愛的長靴.wav">37 我最愛的長靴</li>
-            <li class="song-item" data-src="Music for Stagea/1-2/1-2_38_冰霰.wav">38 冰霰</li>
-            <li class="song-item" data-src="Music for Stagea/1-2/1-2_39_一起散.wav">39 一起散</li>
-            <li class="song-item" data-src="Music for Stagea/1-2/1-2_40_在花海中奔馳.wav">40 在花海中奔馳</li>
-            <li class="song-item" data-src="Music for Stagea/1-2/1-2_41_快樂的三輪車.wav">41 快樂的三輪車</li>
-            <li class="song-item" data-src="Music for Stagea/1-2/1-2_42_泡澡真開心.wav">42 泡澡真開心</li>
-            <li class="song-item" data-src="Music for Stagea/1-2/1-2_43_大家一起玩!.wav">43 大家一起玩!</li>
-            <li class="song-item" data-src="Music for Stagea/1-2/1-2_44_新世界.wav">44 新世界</li>
-            <li class="song-item" data-src="Music for Stagea/1-2/1-2_45_兔子大跳躍.wav">45 兔子大跳躍</li>
-            <li class="song-item" data-src="Music for Stagea/1-2/1-2_46_Panda的鬆餅.wav">46 Panda的鬆餅</li>
-            <li class="song-item" data-src="Music for Stagea/1-2/1-2_47_動物遊行.wav">47 動物遊行</li>
-            <li class="song-item" data-src="Music for Stagea/1-2/1-2_48_好喜歡春天！.wav">48 好喜歡春天！</li>
-            <li class="song-item" data-src="Music for Stagea/1-2/1-2_49_塔朗泰拉舞曲.wav">49 塔朗泰拉舞曲</li>
-            <li class="song-item" data-src="Music for Stagea/1-2/1-2_50_麻亞.wav">50 麻亞</li>
-            <li class="song-item" data-src="Music for Stagea/1-2/1-2_51_風的郵差.wav">51 風的郵差</li>
-            <li class="song-item" data-src="Music for Stagea/1-2/1-2_52_祈.wav">52 祈</li>
-            <li class="song-item" data-src="Music for Stagea/1-2/1-2_53_晨歌.wav">53 晨歌</li>
-        </ul>
-    </div>
-</div>
-
-<script>
-    const player = document.getElementById('main-player');
-    const nowPlayingText = document.getElementById('now-playing');
-    const songItems = document.querySelectorAll('.song-item');
-
-    songItems.forEach(item => {
-        item.addEventListener('click', function() {
-            songItems.forEach(i => i.classList.remove('active'));
-            this.classList.add('active');
-            player.src = this.getAttribute('data-src');
-            nowPlayingText.innerText = '▶️ 正在播放：' + this.innerText;
-            player.play();
-        });
-    });
-</
+        <div class="song-list">
+            <button class="song-item" onclick="playMusic('Music%20for%20Stagea/1-2/1-2_32_Do%20Re%20Mi%20Fa超人.wav', '32 Do Re Mi Fa超人')">32 Do Re Mi Fa超人</button>
+            <button class="song-item" onclick="playMusic('Music%20for%20Stagea/1-2/1-2_33_火車.wav', '33 火車')">33 火車</button>
+            <button class="song-item" onclick="playMusic('Music%20for%20Stagea/1-2/1-2_34_來公園玩.wav', '34 來公園玩')">34 來公園玩</button>
+            <button class="song-item" onclick="playMusic('Music%20for%20Stagea/1-2/1-2_35_快樂的五指朋友.wav', '35 快樂的五指朋友')">35 快樂的五指朋友</button>
+            <button class="song-item" onclick="playMusic('Music%20for%20Stagea/1-2/1-2_36_點心王國的遊樂園.wav', '36 點心王國的遊樂園')">36 點心王國的遊樂園</button>
+            <button class="song-item" onclick="playMusic('Music%20for%20Stagea/1-2/1-2_37_我最愛的長靴.wav', '37 我最愛的長靴')">37 我最愛的長靴</button>
+            <button class="song-item" onclick="playMusic('Music%20for%20Stagea/1-2/1-2_38_冰霰.wav', '38 冰霰')">38 冰霰</button>
+            <button class="song-item" onclick="playMusic('Music%20for%20Stagea/1-2/1-2_39_一起散.wav', '39 一起散')">39 一起散</button>
+            <button class="song-item" onclick="playMusic('Music%20for%20Stagea/1-2/1-2_40_在花海中奔馳.wav', '40 在花海中奔馳')">40 在花海中奔馳</button>
+            <button class="song-item" onclick="playMusic('Music%20for%20Stagea/1-2/1-2_41_快樂的三輪車.wav', '41 快樂的三輪車')">41 快樂的三輪車</button>
+            <button class="song-item" onclick="playMusic('Music%20for%20Stagea/1-2/1-2_42_泡澡真開心.wav', '42 泡澡真開心')">42 泡澡真開心</button>
+            <button class="song-item" onclick="playMusic('Music%20for%20Stagea/1-2/1-2_43_大家一起玩!.wav', '43 大家一起玩!')">43 大家一起玩!</button>
+            <button class="song-item" onclick="playMusic('Music%20for%20Stagea/1-2/1-2_44_新世界.wav', '44 新世界')">44 新世界</button>
+            <button class="song-item" onclick="playMusic('Music%20for%20Stagea/1-2/1-2_45_兔子大跳躍.wav', '45 兔子大跳躍')">45 兔子大跳躍</button>
+            <button class="song-item" onclick="playMusic('Music%20for%20Stagea/1-2/1-2_46_Panda的鬆餅.wav', '46 Panda的鬆餅')">46 Panda的鬆餅</button>
+            <button class="song-item" onclick="playMusic('Music%20for%20Stagea/1-2/1-2_47_動物遊行.wav', '47 動物遊行')">47 動物遊行</button>
+            <button class="song-item" onclick="playMusic('Music%20for%20Stagea/1-2/1-2_48_好喜歡春天！.wav', '48 好喜歡春天！')
