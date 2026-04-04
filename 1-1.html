@@ -30,6 +30,9 @@
             transition: 0.2s;
         }
         .song-item:hover { background-color: #333; color: #ffffff; }
+        
+        /* 🌟 新增：正在播放的那首歌，按鈕會變成亮藍色 */
+        .song-item.active { background-color: #4facfe; color: #121212; font-weight: bold; }
     </style>
 </head>
 <body>
@@ -76,11 +79,21 @@
 </div>
 
 <script>
+    // 🌟 升級版：支援按鈕變色功能
     function playMusic(url, name) {
         const player = document.getElementById('main-player');
         const text = document.getElementById('now-playing');
+        const allButtons = document.querySelectorAll('.song-item');
         
-        // 切換來源
+        // 1. 取消所有按鈕的變色，並找出現在點擊的這首幫它變色
+        allButtons.forEach(btn => {
+            btn.classList.remove('active');
+            if (btn.innerText === name) {
+                btn.classList.add('active');
+            }
+        });
+        
+        // 2. 切換來源並播放
         player.src = url;
         text.innerText = "▶️ 正在播放：" + name;
         
@@ -90,6 +103,21 @@
             console.log("播放失敗，可能是瀏覽器限制自動播放:", e);
         });
     }
+
+    // 🌟 新增：監聽「音樂播完 (ended)」事件，達成自動跳下一首
+    document.getElementById('main-player').addEventListener('ended', function() {
+        // 找到現在正在播放（有 active 標記）的按鈕
+        const currentActive = document.querySelector('.song-item.active');
+        
+        // 如果有找到，而且它下面還有另一個按鈕 (nextElementSibling)
+        if (currentActive && currentActive.nextElementSibling) {
+            // 用程式自動「點」下一首歌
+            currentActive.nextElementSibling.click();
+        } else {
+            // 如果已經是最後一首了
+            document.getElementById('now-playing').innerText = "⏹️ 播放清單已結束";
+        }
+    });
 </script>
 
 </body>
