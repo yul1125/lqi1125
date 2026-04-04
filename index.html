@@ -7,47 +7,22 @@
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+TC:wght@400;500;600;700&display=swap" rel="stylesheet">
 
     <style>
         /* ==========================================
-           一、色彩變數 (大公司最愛的深淺色切換法)
-        ========================================== */
-        :root {
-            /* ☀️ 白天模式 (預設) */
-            --bg-color: #F7F5F2;       /* 背景：米白 */
-            --card-bg: #FFFFFF;        /* 卡片：純白 */
-            --card-hover: #F4F8FA;     /* 滑過：極淡藍 */
-            --text-main: #2E2E2E;      /* 主文字：深灰 */
-            --text-sub: #8A8A8A;       /* 次文字：淺灰 */
-            --accent: #A8C7E0;         /* 裝飾線：柔和藍 */
-            --divider: rgba(0, 0, 0, 0.08); /* 分隔線 */
-            --shadow: rgba(0, 0, 0, 0.04);  /* 陰影 */
-        }
-
-        /* 🌙 深夜模式 (當 html 標籤加上 data-theme="dark" 時自動替換顏色) */
-        [data-theme="dark"] {
-            --bg-color: #121212;       /* 背景：深黑 */
-            --card-bg: #1E1E1E;        /* 卡片：深灰 */
-            --card-hover: #2A2A2A;     /* 滑過：稍微亮一點的灰 */
-            --text-main: #E0E0E0;      /* 主文字：亮灰白 */
-            --text-sub: #888888;       /* 次文字：暗灰 */
-            --accent: #4FACFE;         /* 裝飾線：螢光藍 (深夜更明顯) */
-            --divider: rgba(255, 255, 255, 0.1); 
-            --shadow: rgba(0, 0, 0, 0.3);
-        }
-
-        /* ==========================================
-           二、基礎排版
+           一、視覺核心：漸層背景與色彩系統
         ========================================== */
         body {
-            background-color: var(--bg-color);
+            /* 微漸層 + 深灰黑 (不使用純黑) */
+            background: linear-gradient(180deg, #0f1115 0%, #0c0e12 100%);
+            background-attachment: fixed; /* 讓漸層固定，不會隨滾動跑掉 */
             font-family: 'Inter', 'Noto Sans TC', sans-serif;
-            color: var(--text-main);
+            color: #e6e6e6;
             margin: 0;
-            padding: 32px 24px;
+            padding: 48px 32px;
             -webkit-font-smoothing: antialiased;
-            transition: background-color 0.4s ease, color 0.4s ease; /* 切換日夜時的柔和漸變 */
+            min-height: 100vh;
         }
 
         .container {
@@ -55,98 +30,161 @@
             margin: 0 auto;
         }
 
-        /* 頂部按鈕區塊 */
-        .header-top {
-            display: flex;
-            justify-content: flex-end;
-            margin-bottom: 24px;
-        }
-
-        /* 日夜切換按鈕 */
-        .theme-btn {
-            background-color: var(--card-bg);
-            color: var(--text-main);
-            border: 1px solid var(--divider);
-            padding: 8px 16px;
-            border-radius: 20px;
-            cursor: pointer;
-            font-family: inherit;
-            font-size: 14px;
-            font-weight: 500;
-            box-shadow: 0 2px 8px var(--shadow);
-            transition: all 0.2s ease;
-        }
-        .theme-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px var(--shadow);
-        }
-
+        /* ==========================================
+           二、字體層級系統
+        ========================================== */
         h1 {
-            text-align: center;
             font-size: 32px;
             font-weight: 700;
             margin-bottom: 56px;
-            letter-spacing: 2px;
+            letter-spacing: 1px;
+            color: #ffffff;
         }
 
-        h2 {
-            font-size: 20px;
-            font-weight: 700;
+        .section-title {
+            font-size: 22px;
+            font-weight: 600;
             margin-bottom: 24px;
-            color: var(--text-main);
+            color: #e6e6e6;
         }
 
-        hr {
-            border: 0;
-            height: 1px;
-            background: var(--divider);
-            margin: 48px 0;
-            transition: background 0.4s ease;
-        }
-
-        a { text-decoration: none; }
+        a { text-decoration: none; outline: none; }
 
         /* ==========================================
-           三、統一卡片設計 (乾淨俐落的列表風)
+           三、卡片共用設計 (玻璃感 + 光影 + 互動)
         ========================================== */
-        .grid {
+        .card {
+            /* 半透明 + 毛玻璃效果 */
+            background: rgba(26, 29, 36, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-radius: 16px; /* 統一圓角 */
+            
+            /* 邊框與光影 (光從上方打下來的立體感) */
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: 
+                0 10px 30px rgba(0, 0, 0, 0.5),
+                inset 0 1px 0 rgba(255, 255, 255, 0.06);
+            
+            position: relative; /* 為了放播放按鈕 */
+            display: flex;
+            flex-direction: column;
+            transition: all 0.25s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        /* 互動：Hover 與 Active */
+        .card:hover {
+            transform: translateY(-4px) scale(1.02);
+            background: #20242d;
+            border-color: rgba(255, 255, 255, 0.1);
+            box-shadow: 
+                0 15px 35px rgba(0, 0, 0, 0.6),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        }
+
+        .card:active {
+            transform: scale(0.98); /* 按下去的感覺 */
+        }
+
+        /* 文字色彩配置 */
+        .card h3 {
+            color: #ffffff;
+            font-weight: 600;
+            margin: 0;
+        }
+        .card p {
+            color: #8A8A8A;
+            margin: 0;
+        }
+
+        /* ✨ 隱藏的播放按鈕 (Spotify 風格) */
+        .play-btn {
+            position: absolute;
+            background: #A8C7E0; /* 柔和藍點綴色 */
+            color: #0f1115;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transform: translateY(8px);
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(168, 199, 224, 0.3);
+        }
+        /* 畫一個三角形當播放鍵 */
+        .play-btn::after {
+            content: '';
+            display: block;
+            border-style: solid;
+            border-width: 6px 0 6px 10px;
+            border-color: transparent transparent transparent #0f1115;
+            margin-left: 3px;
+        }
+        
+        /* Hover 時按鈕浮現 */
+        .card:hover .play-btn {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ==========================================
+           四、排版系統：頂部大卡片 (主選單)
+        ========================================== */
+        .top-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); /* 自動排版，畫面多寬就排幾個 */
+            grid-template-columns: repeat(4, 1fr);
+            gap: 24px;
+            margin-bottom: 56px;
+        }
+
+        .card-main {
+            height: 160px;
+            padding: 24px;
+            justify-content: flex-end; /* 內容靠下，留白在上方，大氣 */
+        }
+
+        .card-main h3 {
+            font-size: 22px;
+            margin-bottom: 6px;
+        }
+        .card-main p { font-size: 14px; }
+        
+        .card-main .play-btn {
+            width: 48px;
+            height: 48px;
+            right: 24px;
+            bottom: 24px;
+        }
+
+        /* ==========================================
+           五、排版系統：底部小卡片 (音樂列表)
+        ========================================== */
+        .bottom-grid {
+            display: grid;
+            /* 自動排版，確保不會太擠，有呼吸感 */
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); 
             gap: 16px;
         }
 
-        .card {
-            background-color: var(--card-bg);
-            border-radius: 10px;
-            padding: 20px 24px;
-            box-shadow: 0 2px 8px var(--shadow);
-            height: 70px;
-            display: flex;
-            flex-direction: column;
+        .card-list {
+            height: 80px;
+            padding: 16px 20px;
             justify-content: center;
-            border-left: 4px solid transparent; /* 預留左側線條空間 */
-            transition: all 0.2s ease;
         }
 
-        .card:hover {
-            background-color: var(--card-hover); 
-            border-left: 4px solid var(--accent); /* 滑過時左側亮起重點色 */
-            transform: translateX(4px); /* 輕微向右推 */
-        }
-
-        .card h3 {
+        .card-list h3 {
             font-size: 16px;
-            font-weight: 600;
-            margin: 0 0 6px 0;
-            color: var(--text-main);
-            transition: color 0.4s ease;
+            margin-bottom: 4px;
         }
+        .card-list p { font-size: 13px; }
 
-        .card p {
-            font-size: 13px;
-            color: var(--text-sub);
-            margin: 0;
-            transition: color 0.4s ease;
+        .card-list .play-btn {
+            width: 36px;
+            height: 36px;
+            right: 16px;
+            /* 垂直置中按鈕 */
+            top: 50%;
+            margin-top: -18px;
         }
 
     </style>
@@ -154,151 +192,156 @@
 <body>
 
 <div class="container">
-    <div class="header-top">
-        <button id="theme-toggle" class="theme-btn">🌙 切換深夜模式</button>
-    </div>
-
     <h1>Music Space</h1>
 
-    <h2>本機音樂庫</h2>
-    <div class="grid">
-        <a href="1-1.html" class="card">
+    <div class="section-title">新教材</div>
+    <div class="top-grid">
+        <a href="1-1.html" class="card card-main">
             <h3>Stagea 1-1</h3>
-            <p>本機音檔</p>
+            <p>本機音檔 / 24 首</p>
+            <div class="play-btn"></div>
         </a>
-        <a href="1-2.html" class="card">
+        <a href="1-2.html" class="card card-main">
             <h3>Stagea 1-2</h3>
-            <p>本機音檔</p>
+            <p>本機音檔 / 22 首</p>
+            <div class="play-btn"></div>
         </a>
-        <a href="2-1.html" class="card">
+        <a href="2-1.html" class="card card-main">
             <h3>Stagea 2-1</h3>
-            <p>本機音檔</p>
+            <p>本機音檔 / 24 首</p>
+            <div class="play-btn"></div>
         </a>
-        <a href="2-2.html" class="card">
+        <a href="2-2.html" class="card card-main">
             <h3>Stagea 2-2</h3>
-            <p>本機音檔</p>
+            <p>本機音檔 / 20 首</p>
+            <div class="play-btn"></div>
         </a>
     </div>
 
-    <hr>
-
-    <h2>線上課程連結</h2>
-    <div class="grid">
-        <a href="https://yms.ymm.co.jp/media/index.html?page=9003aff1958fe0e5869b0076831e9ad2" target="_blank" class="card">
+    <div class="section-title" style="margin-top: 24px;">線上課程連結</div>
+    <div class="bottom-grid">
+        <a href="https://yms.ymm.co.jp/media/index.html?page=9003aff1958fe0e5869b0076831e9ad2" target="_blank" class="card card-list">
             <h3>3歲小幼班 1</h3>
             <p>線上串流播放</p>
+            <div class="play-btn"></div>
         </a>
-        <a href="https://yms.ymm.co.jp/media/index.html?page=63713616f8e8a829a11bd9cde25d6d66" target="_blank" class="card">
+        <a href="https://yms.ymm.co.jp/media/index.html?page=63713616f8e8a829a11bd9cde25d6d66" target="_blank" class="card card-list">
             <h3>3歲小幼班 2</h3>
             <p>線上串流播放</p>
+            <div class="play-btn"></div>
         </a>
-        <a href="https://yms.ymm.co.jp/media/index.html?page=e10e6e6111a0007bc70e48c1682b5103" target="_blank" class="card">
+        <a href="https://yms.ymm.co.jp/media/index.html?page=e10e6e6111a0007bc70e48c1682b5103" target="_blank" class="card card-list">
             <h3>幼幼班-音樂是我的好朋友</h3>
             <p>線上串流播放</p>
+            <div class="play-btn"></div>
         </a>
-        <a href="https://yms.ymm.co.jp/media/index.html?page=d33d924f32baaae9e4b7ce79c6117db8" target="_blank" class="card">
+        <a href="https://yms.ymm.co.jp/media/index.html?page=d33d924f32baaae9e4b7ce79c6117db8" target="_blank" class="card card-list">
             <h3>幼兒班 1</h3>
             <p>線上串流播放</p>
+            <div class="play-btn"></div>
         </a>
-        <a href="https://yms.ymm.co.jp/media/index.html?page=43fb4088ba2d592d5a06ba5a5b4f8d01" target="_blank" class="card">
+        <a href="https://yms.ymm.co.jp/media/index.html?page=43fb4088ba2d592d5a06ba5a5b4f8d01" target="_blank" class="card card-list">
             <h3>幼兒班 2</h3>
             <p>線上串流播放</p>
+            <div class="play-btn"></div>
         </a>
-        <a href="https://yms.ymm.co.jp/media/index.html?page=4f4bdea5b5bf06afae410a366857b53d" target="_blank" class="card">
+        <a href="https://yms.ymm.co.jp/media/index.html?page=4f4bdea5b5bf06afae410a366857b53d" target="_blank" class="card card-list">
             <h3>幼兒班 3</h3>
             <p>線上串流播放</p>
+            <div class="play-btn"></div>
         </a>
-        <a href="https://yms.ymm.co.jp/media/index.html?page=0994ee50cda6e7977cbabfaf4fc61bd4" target="_blank" class="card">
+        <a href="https://yms.ymm.co.jp/media/index.html?page=0994ee50cda6e7977cbabfaf4fc61bd4" target="_blank" class="card card-list">
             <h3>幼兒班 4</h3>
             <p>線上串流播放</p>
+            <div class="play-btn"></div>
         </a>
-        <a href="https://yms.ymm.co.jp/media/index.html?page=0388be88a616e03fab375c114a606939" target="_blank" class="card">
+        <a href="https://yms.ymm.co.jp/media/index.html?page=0388be88a616e03fab375c114a606939" target="_blank" class="card card-list">
             <h3>新先修 1</h3>
             <p>線上串流播放</p>
+            <div class="play-btn"></div>
         </a>
-        <a href="https://yms.ymm.co.jp/media/index.html?page=ca065c47b03df8cd802cb87cab3418ef" target="_blank" class="card">
+        <a href="https://yms.ymm.co.jp/media/index.html?page=ca065c47b03df8cd802cb87cab3418ef" target="_blank" class="card card-list">
             <h3>新先修 2</h3>
             <p>線上串流播放</p>
+            <div class="play-btn"></div>
         </a>
-        <a href="https://yms.ymm.co.jp/media/index.html?page=ab87900f063711297f2e91dc09b51456" target="_blank" class="card">
+        <a href="https://yms.ymm.co.jp/media/index.html?page=ab87900f063711297f2e91dc09b51456" target="_blank" class="card card-list">
             <h3>新先修 3</h3>
             <p>線上串流播放</p>
+            <div class="play-btn"></div>
         </a>
-        <a href="https://yms.ymm.co.jp/media/index.html?page=ef2420e3713358ff266f1a95609c7608" target="_blank" class="card">
+        <a href="https://yms.ymm.co.jp/media/index.html?page=ef2420e3713358ff266f1a95609c7608" target="_blank" class="card card-list">
             <h3>新先修 4</h3>
             <p>線上串流播放</p>
+            <div class="play-btn"></div>
         </a>
-        <a href="https://yms.ymm.co.jp/media/index.html?page=f08f75a92aab01d7dc9a98795e09e460" target="_blank" class="card">
+        <a href="https://yms.ymm.co.jp/media/index.html?page=f08f75a92aab01d7dc9a98795e09e460" target="_blank" class="card card-list">
             <h3>新先修 REPERTOIRE 1</h3>
             <p>線上串流播放</p>
+            <div class="play-btn"></div>
         </a>
-        <a href="https://yms.ymm.co.jp/media/index.html?page=b0d4cfd2bf970534178d97139ea4d91d" target="_blank" class="card">
+        <a href="https://yms.ymm.co.jp/media/index.html?page=b0d4cfd2bf970534178d97139ea4d91d" target="_blank" class="card card-list">
             <h3>新先修 REPERTOIRE 2</h3>
             <p>線上串流播放</p>
+            <div class="play-btn"></div>
         </a>
-        <a href="https://yms.ymm.co.jp/media/index.html?page=0deb955a3abb6d78288273326a6bb8d1" target="_blank" class="card">
+        <a href="https://yms.ymm.co.jp/media/index.html?page=0deb955a3abb6d78288273326a6bb8d1" target="_blank" class="card card-list">
             <h3>新先修 REPERTOIRE 3</h3>
             <p>線上串流播放</p>
+            <div class="play-btn"></div>
         </a>
-        <a href="https://yms.ymm.co.jp/media/index.html?page=ab8cc19f69ba56cbdae8e56f523b1040" target="_blank" class="card">
+        <a href="https://yms.ymm.co.jp/media/index.html?page=ab8cc19f69ba56cbdae8e56f523b1040" target="_blank" class="card card-list">
             <h3>新先修 REPERTOIRE 4</h3>
             <p>線上串流播放</p>
+            <div class="play-btn"></div>
         </a>
-        <a href="https://yms.ymm.co.jp/media/index.html?page=19058931e7b07f91399de9d396b27518" target="_blank" class="card">
+        <a href="https://yms.ymm.co.jp/media/index.html?page=19058931e7b07f91399de9d396b27518" target="_blank" class="card card-list">
             <h3>紅蘋果班</h3>
             <p>線上串流播放</p>
+            <div class="play-btn"></div>
         </a>
-        <a href="https://yms.ymm.co.jp/media/index.html?page=381f035c5636efa58b88b8ac3543ec3e" target="_blank" class="card">
+        <a href="https://yms.ymm.co.jp/media/index.html?page=381f035c5636efa58b88b8ac3543ec3e" target="_blank" class="card card-list">
             <h3>ANC REPERTOIRE 1</h3>
             <p>線上串流播放</p>
+            <div class="play-btn"></div>
         </a>
-        <a href="https://yms.ymm.co.jp/media/index.html?page=17a35558ceebd824fee9a050a46ccb45" target="_blank" class="card">
+        <a href="https://yms.ymm.co.jp/media/index.html?page=17a35558ceebd824fee9a050a46ccb45" target="_blank" class="card card-list">
             <h3>ANC REPERTOIRE 2</h3>
             <p>線上串流播放</p>
+            <div class="play-btn"></div>
         </a>
-        <a href="https://yms.ymm.co.jp/media/index.html?page=73eb4122c769bc370f8c42b6318bfc91" target="_blank" class="card">
+        <a href="https://yms.ymm.co.jp/media/index.html?page=73eb4122c769bc370f8c42b6318bfc91" target="_blank" class="card card-list">
             <h3>JNC REPERTOIRE 1</h3>
             <p>線上串流播放</p>
+            <div class="play-btn"></div>
         </a>
-        <a href="https://yms.ymm.co.jp/media/index.html?page=cf5fb144994e9df97029f99fe42c0dbf" target="_blank" class="card">
+        <a href="https://yms.ymm.co.jp/media/index.html?page=cf5fb144994e9df97029f99fe42c0dbf" target="_blank" class="card card-list">
             <h3>JNC REPERTOIRE 2</h3>
             <p>線上串流播放</p>
+            <div class="play-btn"></div>
         </a>
-        <a href="https://yms.ymm.co.jp/media/index.html?page=0d9110111a4d1b114f919b7a3e5d36b5" target="_blank" class="card">
+        <a href="https://yms.ymm.co.jp/media/index.html?page=0d9110111a4d1b114f919b7a3e5d36b5" target="_blank" class="card card-list">
             <h3>SOLFEGE AND ENSEMBLE 5</h3>
             <p>線上串流播放</p>
+            <div class="play-btn"></div>
         </a>
-        <a href="https://yms.ymm.co.jp/media/index.html?page=b4f3f4cc468b6dc94f1cbf7ca16aa59b" target="_blank" class="card">
+        <a href="https://yms.ymm.co.jp/media/index.html?page=b4f3f4cc468b6dc94f1cbf7ca16aa59b" target="_blank" class="card card-list">
             <h3>SOLFEGE AND ENSEMBLE 6</h3>
             <p>線上串流播放</p>
+            <div class="play-btn"></div>
         </a>
-        <a href="https://yms.ymm.co.jp/media/index.html?page=149fbf28cf4783ff662c6b66c29497fa" target="_blank" class="card">
+        <a href="https://yms.ymm.co.jp/media/index.html?page=149fbf28cf4783ff662c6b66c29497fa" target="_blank" class="card card-list">
             <h3>SOLFEGE AND ENSEMBLE 7</h3>
             <p>線上串流播放</p>
+            <div class="play-btn"></div>
         </a>
-        <a href="https://yms.ymm.co.jp/media/index.html?page=3589af9965a9b7c9295594772510b060" target="_blank" class="card">
+        <a href="https://yms.ymm.co.jp/media/index.html?page=3589af9965a9b7c9295594772510b060" target="_blank" class="card card-list">
             <h3>SOLFEGE AND ENSEMBLE 8</h3>
             <p>線上串流播放</p>
+            <div class="play-btn"></div>
         </a>
     </div>
 </div>
-
-<script>
-    const themeBtn = document.getElementById('theme-toggle');
-    const htmlElement = document.documentElement; // 抓取整份網頁的最外層
-
-    themeBtn.addEventListener('click', () => {
-        // 如果現在是深夜模式，就拔掉標籤變回白天
-        if (htmlElement.getAttribute('data-theme') === 'dark') {
-            htmlElement.removeAttribute('data-theme');
-            themeBtn.innerText = '🌙 切換深夜模式';
-        } else {
-            // 如果不是，就加上 dark 標籤進入深夜模式
-            htmlElement.setAttribute('data-theme', 'dark');
-            themeBtn.innerText = '☀️ 切換白天模式';
-        }
-    });
-</script>
 
 </body>
 </html>
