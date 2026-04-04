@@ -14,9 +14,8 @@
            一、視覺核心：漸層背景與色彩系統
         ========================================== */
         body {
-            /* 微漸層 + 深灰黑 (不使用純黑) */
             background: linear-gradient(180deg, #0f1115 0%, #0c0e12 100%);
-            background-attachment: fixed; /* 讓漸層固定，不會隨滾動跑掉 */
+            background-attachment: fixed; 
             font-family: 'Inter', 'Noto Sans TC', sans-serif;
             color: #e6e6e6;
             margin: 0;
@@ -54,25 +53,20 @@
            三、卡片共用設計 (玻璃感 + 光影 + 互動)
         ========================================== */
         .card {
-            /* 半透明 + 毛玻璃效果 */
             background: rgba(26, 29, 36, 0.7);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
-            border-radius: 16px; /* 統一圓角 */
-            
-            /* 邊框與光影 (光從上方打下來的立體感) */
+            border-radius: 16px; 
             border: 1px solid rgba(255, 255, 255, 0.05);
             box-shadow: 
                 0 10px 30px rgba(0, 0, 0, 0.5),
                 inset 0 1px 0 rgba(255, 255, 255, 0.06);
-            
-            position: relative; /* 為了放播放按鈕 */
+            position: relative; 
             display: flex;
             flex-direction: column;
             transition: all 0.25s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
 
-        /* 互動：Hover 與 Active */
         .card:hover {
             transform: translateY(-4px) scale(1.02);
             background: #20242d;
@@ -83,10 +77,9 @@
         }
 
         .card:active {
-            transform: scale(0.98); /* 按下去的感覺 */
+            transform: scale(0.98); 
         }
 
-        /* 文字色彩配置 */
         .card h3 {
             color: #ffffff;
             font-weight: 600;
@@ -97,10 +90,10 @@
             margin: 0;
         }
 
-        /* ✨ 隱藏的播放按鈕 (Spotify 風格) */
+        /* 隱藏的播放按鈕 (Spotify 風格) */
         .play-btn {
             position: absolute;
-            background: #A8C7E0; /* 柔和藍點綴色 */
+            background: #A8C7E0; 
             color: #0f1115;
             border-radius: 50%;
             display: flex;
@@ -111,7 +104,6 @@
             transition: all 0.3s ease;
             box-shadow: 0 4px 12px rgba(168, 199, 224, 0.3);
         }
-        /* 畫一個三角形當播放鍵 */
         .play-btn::after {
             content: '';
             display: block;
@@ -121,7 +113,6 @@
             margin-left: 3px;
         }
         
-        /* Hover 時按鈕浮現 */
         .card:hover .play-btn {
             opacity: 1;
             transform: translateY(0);
@@ -140,7 +131,7 @@
         .card-main {
             height: 160px;
             padding: 24px;
-            justify-content: flex-end; /* 內容靠下，留白在上方，大氣 */
+            justify-content: flex-end; 
         }
 
         .card-main h3 {
@@ -161,7 +152,6 @@
         ========================================== */
         .bottom-grid {
             display: grid;
-            /* 自動排版，確保不會太擠，有呼吸感 */
             grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); 
             gap: 16px;
         }
@@ -182,11 +172,59 @@
             width: 36px;
             height: 36px;
             right: 16px;
-            /* 垂直置中按鈕 */
             top: 50%;
             margin-top: -18px;
         }
 
+        /* ==========================================
+           六、RWD 響應式設計 (拯救手機與平板版)
+        ========================================== */
+        
+        /* 平板尺寸 (例如 iPad) */
+        @media (max-width: 992px) {
+            .top-grid {
+                grid-template-columns: repeat(2, 1fr); /* 平板變 2 欄 */
+            }
+        }
+
+        /* 手機尺寸 */
+        @media (max-width: 768px) {
+            body {
+                padding: 32px 16px; /* 手機螢幕小，把兩側多餘的留白收回來 */
+            }
+            
+            h1 {
+                font-size: 28px;
+                margin-bottom: 32px;
+            }
+
+            .top-grid {
+                grid-template-columns: 1fr; /* 手機版：上面 4 個變單排，大方好按 */
+                gap: 16px;
+            }
+
+            .card-main {
+                height: 120px; /* 手機上稍微縮小高度，避免佔滿整個畫面 */
+                padding: 20px;
+            }
+
+            .bottom-grid {
+                grid-template-columns: 1fr; /* 手機版：下面 24 個也變單排 */
+            }
+
+            /* 手機沒有滑鼠游標 (無法 Hover)，所以我們把播放按鈕直接常駐顯示，但調成半透明的高級感 */
+            .play-btn {
+                opacity: 1;
+                transform: translateY(0);
+                background: rgba(168, 199, 224, 0.15); /* 柔藍色半透明底 */
+                box-shadow: none;
+            }
+            
+            /* 把按鈕中間的三角形換成柔藍色，適配半透明底 */
+            .play-btn::after {
+                border-color: transparent transparent transparent #A8C7E0;
+            }
+        }
     </style>
 </head>
 <body>
