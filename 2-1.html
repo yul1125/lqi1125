@@ -4,40 +4,175 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Stagea 2-1 音樂庫</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+TC:wght@400;500;600;700&display=swap" rel="stylesheet">
+
     <style>
-        body { background-color: #121212; font-family: sans-serif; color: #ffffff; padding: 20px; margin: 0; }
-        .container { max-width: 800px; margin: 0 auto; }
-        h1 { text-align: center; margin-bottom: 20px; }
-        .back-btn { display: inline-block; background-color: #333; color: white; text-decoration: none; padding: 10px 20px; border-radius: 8px; margin-bottom: 20px; font-weight: bold; }
-        .back-btn:hover { background-color: #ffffff; color: black; }
-        .playlist-box { background-color: #1e1e1e; border-radius: 12px; border: 1px solid #333; padding: 20px; }
-        .player-header { position: sticky; top: 0; background-color: #1e1e1e; padding-bottom: 15px; border-bottom: 2px solid #4facfe; margin-bottom: 15px; z-index: 10; }
-        #now-playing { color: #4facfe; font-weight: bold; font-size: 1.2rem; margin-bottom: 10px; display: block; }
-        audio { width: 100%; border-radius: 8px; }
-        
-        /* 歌名按鈕樣式 */
-        .song-list { list-style: none; padding: 0; margin: 0; }
+        /* ==========================================
+           一、視覺核心：漸層背景與色彩系統
+        ========================================== */
+        body {
+            background: linear-gradient(180deg, #0f1115 0%, #0c0e12 100%);
+            background-attachment: fixed; 
+            font-family: 'Inter', 'Noto Sans TC', sans-serif;
+            color: #e6e6e6;
+            margin: 0;
+            padding: 48px 32px;
+            -webkit-font-smoothing: antialiased;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 800px; 
+            margin: 0 auto;
+        }
+
+        /* ==========================================
+           二、字體層級系統與導航按鈕
+        ========================================== */
+        h1 {
+            text-align: center;
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 40px;
+            letter-spacing: 1px;
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+        }
+
+        .back-btn { 
+            display: inline-flex;
+            align-items: center;
+            background-color: rgba(255, 255, 255, 0.05);
+            color: #e6e6e6; 
+            text-decoration: none; 
+            padding: 8px 16px; 
+            border-radius: 8px; 
+            margin-bottom: 24px; 
+            font-weight: 500;
+            font-size: 14px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.2s ease;
+        }
+        .back-btn:hover { 
+            background-color: rgba(255, 255, 255, 0.1);
+            color: #ffffff; 
+            transform: translateX(-4px); 
+        }
+
+        /* ==========================================
+           三、琉璃播放器區塊
+        ========================================== */
+        .playlist-box { 
+            background: rgba(26, 29, 36, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-radius: 20px; 
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: 
+                0 15px 40px rgba(0, 0, 0, 0.6),
+                inset 0 1px 0 rgba(255, 255, 255, 0.06);
+            padding: 32px; 
+        }
+
+        .player-header { 
+            position: sticky; 
+            top: 20px; 
+            background: rgba(26, 29, 36, 0.85); 
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            padding: 20px; 
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            margin-bottom: 24px; 
+            z-index: 10;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+        }
+
+        #now-playing { 
+            color: #A8C7E0; 
+            font-weight: 600; 
+            font-size: 16px; 
+            margin-bottom: 12px; 
+            display: block; 
+            letter-spacing: 0.5px;
+        }
+
+        audio { 
+            width: 100%; 
+            border-radius: 8px;
+            outline: none;
+        }
+        audio::-webkit-media-controls-panel {
+            background-color: #1E2128; 
+        }
+
+        /* ==========================================
+           四、極簡列表按鈕
+        ========================================== */
+        .song-list { 
+            list-style: none; 
+            padding: 0; 
+            margin: 0; 
+            display: flex;
+            flex-direction: column;
+            gap: 8px; 
+        }
+
         .song-item { 
             width: 100%;
             text-align: left;
-            padding: 15px;
-            margin-bottom: 8px;
-            background-color: #252525;
-            border: none;
-            border-radius: 8px;
-            color: #4facfe;
+            padding: 16px 20px;
+            background-color: transparent; 
+            border: 1px solid transparent;
+            border-radius: 10px;
+            color: #e6e6e6;
             cursor: pointer;
-            font-size: 1rem;
-            transition: 0.2s;
+            font-size: 15px;
+            font-family: inherit;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
         }
-        .song-item:hover { background-color: #333; color: #ffffff; }
+
+        .song-item:hover { 
+            background-color: rgba(255, 255, 255, 0.03); 
+            border-color: rgba(255, 255, 255, 0.05);
+            transform: translateX(4px); 
+        }
+
+        /* 正在播放狀態 */
+        .song-item.active { 
+            background-color: rgba(168, 199, 224, 0.1); 
+            border-color: rgba(168, 199, 224, 0.2);
+            color: #A8C7E0; 
+            font-weight: 600; 
+            border-left: 4px solid #A8C7E0; 
+            padding-left: 16px; 
+        }
+
+        /* ==========================================
+           五、RWD 手機版適應
+        ========================================== */
+        @media (max-width: 768px) {
+            body { padding: 24px 16px; }
+            .playlist-box { padding: 20px; }
+            .player-header { padding: 16px; top: 10px; }
+            .song-item { padding: 14px 16px; font-size: 14px; }
+        }
+
     </style>
 </head>
 <body>
 
 <div class="container">
-    <a href="index.html" class="back-btn">⬅️ 返回主目錄</a>
-    <h1>📂 Stagea 2-1 音樂庫</h1>
+    <a href="index.html" class="back-btn">← 返回主目錄</a>
+    <h1>📁 Stagea 2-1</h1>
 
     <div class="playlist-box">
         <div class="player-header">
@@ -80,15 +215,37 @@
     function playMusic(url, name) {
         const player = document.getElementById('main-player');
         const text = document.getElementById('now-playing');
+        const allButtons = document.querySelectorAll('.song-item');
         
+        // 1. 取消所有按鈕的變色，並找出現在點擊的這首幫它變色
+        allButtons.forEach(btn => {
+            btn.classList.remove('active');
+            if (btn.innerText === name) {
+                btn.classList.add('active');
+            }
+        });
+        
+        // 2. 切換來源並播放
         player.src = url;
         text.innerText = "▶️ 正在播放：" + name;
         
+        // 載入並播放
         player.load();
         player.play().catch(e => {
-            console.log("播放失敗:", e);
+            console.log("播放失敗，可能是瀏覽器限制自動播放:", e);
         });
     }
+
+    // 🌟 監聽「音樂播完 (ended)」事件，達成自動跳下一首
+    document.getElementById('main-player').addEventListener('ended', function() {
+        const currentActive = document.querySelector('.song-item.active');
+        
+        if (currentActive && currentActive.nextElementSibling) {
+            currentActive.nextElementSibling.click();
+        } else {
+            document.getElementById('now-playing').innerText = "⏹️ 播放清單已結束";
+        }
+    });
 </script>
 
 </body>
